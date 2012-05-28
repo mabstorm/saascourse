@@ -51,7 +51,16 @@ def rps_game_winner(game)
 end
 
 def rps_tournament_winner(tournament)
-  
+  if (tournament[0][0].class==String)
+    winner = rps_game_winner(tournament)
+#puts "match: #{tournament}"
+#puts "result: #{winner}"
+  else
+    winner1 = rps_tournament_winner(tournament[0])
+    winner2 = rps_tournament_winner(tournament[1])
+    winner = rps_tournament_winner([winner1, winner2])
+  end
+  return winner
 end
 
 class WrongNumberOfPlayersError < StandardError ; end
@@ -100,6 +109,32 @@ if __FILE__ == $0
     end
   end
 
-
+# rps_tournament_winner, requires 2^n players
+  test_tournaments = 
+{
+  [
+    [
+      [ ["Armando", "P"], ["Dave", "S"] ],
+      [ ["Richard", "R"], ["Michael", "S"] ],
+    ],
+    [
+      [ ["Allen", "S"], ["Omer", "P"] ],
+      [ ["David E.", "R"], ["Richard X.", "P"] ]
+    ]
+  ]=>["Richard", "R"],
+  [
+    [ ["Armando", "P"], ["Dave", "S"] ],
+    [ ["Richard", "R"], ["Michael", "S"] ],
+  ]=>["Richard", "R"]
+}
+  test_tournaments.each_pair do |tournament, result|
+    PP.pp tournament
+    if (rps_tournament_winner(tournament)!=result)
+      puts "failed tournament"
+    else
+      puts "correct tournament"
+    end
+  end
+  
 
 end
