@@ -22,7 +22,7 @@ def count_words(string)
   count_hash = Hash.new(0)
   words.each do |word|
     word = clean_string(word)
-    word = word.strip.squeeze
+    word = word.strip.squeeze(" ")
     next if word==" " or word.nil? or word.empty?
     count_hash[word] += 1
   end
@@ -165,3 +165,19 @@ if __FILE__ == $0
   
 
 end
+
+=begin
+# in some other library
+def around_stuff
+  ..before code...
+  yield
+  ..after code...
+end
+# in your code
+def do_everything
+  around_stuff do
+    my_custom_stuff()
+  end
+end
+=end
+
