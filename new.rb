@@ -11,9 +11,20 @@ def clean_string(string)
 end
 
 # determine if the string is a palindrome, returns bool
+# now should work for "foo".palindrome? and palindrome?("foo")
 def palindrome?(string)
   string = clean_string(string)
   return (string==string.reverse)
+end
+
+class String
+  def method_missing(method_id, *arguments)
+    if (method_id==:palindrome?)
+      return palindrome?(self.to_s)
+    else
+      super
+    end
+  end
 end
 
 # count number of words in the string using \b to define words, returns hash
@@ -73,7 +84,7 @@ class NoSuchStrategyError < StandardError ; end
 # Anagrams
 def combine_anagrams(words)
   collected = Hash.new(Array.new)
-  words.each_index {|i| collected[words[i].split("").sort] += [words[i]]}
+  words.each_index {|i| collected[words[i].downcase.split("").sort] += [words[i]]}
   return collected.values
 end
 
@@ -89,7 +100,7 @@ if __FILE__ == $0
                   "ala"=>true}
   test_strings.each_pair do |string, answer|
     print string + " -- "
-    if (palindrome?(string)==answer) 
+    if (palindrome?(string)==answer && string.palindrome?()==answer) 
       puts "right" 
     else 
       puts "wrong"
@@ -149,8 +160,8 @@ if __FILE__ == $0
     end
   end
 
-  test_anagrams = {['cars', 'for', 'potatoes', 'racs', 'four',
-    'scar', 'creams', 'scream']=>[["cars", "racs", "scar"], ["four"], ["for"], ["potatoes"],
+  test_anagrams = {['Cars', 'for', 'potatoes', 'racs', 'four',
+    'scar', 'creams', 'scream']=>[["Cars", "racs", "scar"], ["four"], ["for"], ["potatoes"],
 ["creams", "scream"]]}
   test_anagrams.each_pair do |anagrams, result|
     PP.pp anagrams
