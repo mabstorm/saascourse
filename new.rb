@@ -35,6 +35,7 @@ def valid_rps(rps)
   return (rps=='s'||rps=='p'||rps='r')
 end
 
+# Rock-Paper-Scissors game
 def rps_game_winner(game)
   raise WrongNumberOfPlayersError unless game.length == 2
   rps1 = game[0][1].downcase
@@ -50,6 +51,7 @@ def rps_game_winner(game)
   end
 end
 
+# Rock-Paper-Scissors tournament
 def rps_tournament_winner(tournament)
   if (tournament[0][0].class==String)
     winner = rps_game_winner(tournament)
@@ -66,7 +68,18 @@ end
 class WrongNumberOfPlayersError < StandardError ; end
 class NoSuchStrategyError < StandardError ; end
 
-# main
+
+
+# Anagrams
+def combine_anagrams(words)
+  collected = Hash.new(Array.new)
+  words.each_index {|i| collected[words[i].split("").sort] += [words[i]]}
+  return collected.values
+end
+
+
+
+# testing main
 if __FILE__ == $0
 
 # palindrome? testing
@@ -133,6 +146,20 @@ if __FILE__ == $0
       puts "failed tournament"
     else
       puts "correct tournament"
+    end
+  end
+
+  test_anagrams = {['cars', 'for', 'potatoes', 'racs', 'four',
+    'scar', 'creams', 'scream']=>[["cars", "racs", "scar"], ["four"], ["for"], ["potatoes"],
+["creams", "scream"]]}
+  test_anagrams.each_pair do |anagrams, result|
+    PP.pp anagrams
+    myresult = combine_anagrams(anagrams).sort!
+    result.sort!
+    if (myresult!=result)
+      puts "failed anagrams"
+    else
+      puts "correct anagrams"
     end
   end
   
