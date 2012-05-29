@@ -32,7 +32,7 @@ end
 # determines if the stategy given is valid
 def valid_rps(rps)
   rps = rps.downcase
-  return (rps=='s'||rps=='p'||rps='r')
+  return (rps=='s'||rps=='p'||rps=='r')
 end
 
 # Rock-Paper-Scissors game
